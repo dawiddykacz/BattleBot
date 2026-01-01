@@ -48,7 +48,12 @@ jobs:
             sudo docker compose up -d --build
 
             echo "▶ Stating Backend"
-            cd ..\Backend\BattleBot            
+            cd ../Backend/BattleBot         
+            sudo docker compose down
+            sudo docker compose up -d --build
+
+            echo "▶ Stating discord bot"
+            cd ../../BattleBot-DiscordBot       
             sudo docker compose down
             sudo docker compose up -d --build
           EOF
