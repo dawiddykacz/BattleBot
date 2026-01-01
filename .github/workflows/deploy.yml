@@ -30,12 +30,6 @@ jobs:
             echo "▶ Pulling repo"
             git pull origin main
 
-            echo "▶ Writing envs"
-            export DISCORD_CLIENT_ID=${{ secrets.DISCORD_CLIENT_ID }}
-            export DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }}
-            export DISCORD_GUILD_ID=${{ secrets.DISCORD_GUILD_ID }}
-            export BACKEND_URL=${{ secrets.BACKEND_URL }}
-
             echo "▶ Stating data"
             cd Data            
             sudo docker compose down
@@ -49,4 +43,8 @@ jobs:
             echo "▶ Stating discord bot"
             cd ../../BattleBot-DiscordBot       
             sudo docker compose down
-            sudo docker compose up -d --build
+            sudo docker compose up -d --build \
+              -e DISCORD_CLIENT_ID="${{ secrets.DISCORD_CLIENT_ID }}" \
+              -e DISCORD_TOKEN="${{ secrets.DISCORD_TOKEN }}" \
+              -e DISCORD_GUILD_ID="${{ secrets.DISCORD_GUILD_ID }}" \
+              -e BACKEND_URL="${{ secrets.BACKEND_URL }}"
