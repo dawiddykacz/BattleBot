@@ -31,16 +31,10 @@ jobs:
             git pull origin main
 
             echo "▶ Writing envs"
-            DISCORD_CLIENT_ID=${{ secrets.DISCORD_CLIENT_ID }}
-            DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }}
-            DISCORD_GUILD_ID=${{ secrets.DISCORD_GUILD_ID }}
-
-            SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}
-            SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}
-
-            COMLINK_SECRET_KEY=${{ secrets.COMLINK_SECRET_KEY }}
-            COMLINK_ACCESS_KEY=${{ secrets.COMLINK_ACCESS_KEY }}
-            COMLINK_URL=${{ secrets.COMLINK_URL }}
+            export DISCORD_CLIENT_ID=${{ secrets.DISCORD_CLIENT_ID }}
+            export DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }}
+            export DISCORD_GUILD_ID=${{ secrets.DISCORD_GUILD_ID }}
+            export BACKEND_URL=${{ secrets.BACKEND_URL }}
 
             echo "▶ Stating data"
             cd Data            
