@@ -25,13 +25,12 @@ jobs:
           ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
 
             set -e
-            cd /home/debian
+            cd /home/debian/BattleBot
 
             echo "▶ Pulling repo"
             git pull origin main
 
-            echo "▶ Writing .env"
-            cat > .env << ENV
+            echo "▶ Writing envs"
             DISCORD_CLIENT_ID=${{ secrets.DISCORD_CLIENT_ID }}
             DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }}
             DISCORD_GUILD_ID=${{ secrets.DISCORD_GUILD_ID }}
@@ -42,5 +41,19 @@ jobs:
             COMLINK_SECRET_KEY=${{ secrets.COMLINK_SECRET_KEY }}
             COMLINK_ACCESS_KEY=${{ secrets.COMLINK_ACCESS_KEY }}
             COMLINK_URL=${{ secrets.COMLINK_URL }}
-            ENV
+
+            echo "▶ Stating data"
+            cd Data            
+            sudo docker compose down
+            sudo docker compose up -d --build
+
+            echo "▶ Stating Backend"
+            cd ../Backend/BattleBot         
+            sudo docker compose down
+            sudo docker compose up -d --build
+
+            echo "▶ Stating discord bot"
+            cd ../../BattleBot-DiscordBot       
+            sudo docker compose down
+            sudo docker compose up -d --build
           EOF
