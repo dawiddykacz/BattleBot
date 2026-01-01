@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "comlink.secret.key",
+      "type": "java.lang.String",
+      "description": "Description for comlink.secret.key."
+  }
+] }
