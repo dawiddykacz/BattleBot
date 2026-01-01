@@ -21,6 +21,15 @@ jobs:
       - name: Deploy to VPS
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            cd /home/debian/battlebot  
-            git pull origin main      
+            cd /home/debian/Battlebot  
+            git pull origin main   
+
+            echo "DISCORD_CLIENT_ID=${{ secrets.DISCORD_CLIENT_ID }}" >> .env
+            echo "DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }}" >> .env
+            echo "DISCORD_GUILD_ID=${{ secrets.DISCORD_GUILD_ID }}" >> .env
+            echo "SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}" >> .env
+            echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}" >> .env
+            echo "COMLINK_SECRET_KEY=${{ secrets.COMLINK_SECRET_KEY }}" >> .env
+            echo "COMLINK_ACCESS_KEY=${{ secrets.COMLINK_ACCESS_KEY }}" >> .env
+            echo "COMLINK_URL=${{ secrets.COMLINK_URL }}" >> .env   
           EOF
