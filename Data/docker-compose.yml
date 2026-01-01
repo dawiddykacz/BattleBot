@@ -74,7 +74,7 @@ services:
     ports:
       - '3306:3306'
     volumes:
-      - "./sql:/app/data"
+      - "./sql:/var/lib/mysql"
 
 networks:
   comlink: {}
