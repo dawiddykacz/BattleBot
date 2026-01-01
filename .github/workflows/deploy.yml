@@ -43,8 +43,8 @@ jobs:
             echo "▶ Stating discord bot"
             cd ../../BattleBot-DiscordBot       
             sudo docker compose down
-            sudo docker compose up -d --build \
-              -e DISCORD_CLIENT_ID="${{ secrets.DISCORD_CLIENT_ID }}" \
-              -e DISCORD_TOKEN="${{ secrets.DISCORD_TOKEN }}" \
-              -e DISCORD_GUILD_ID="${{ secrets.DISCORD_GUILD_ID }}" \
-              -e BACKEND_URL="${{ secrets.BACKEND_URL }}"
+            sudo DISCORD_CLIENT_ID="${{ secrets.DISCORD_CLIENT_ID }}" \
+              DISCORD_TOKEN="${{ secrets.DISCORD_TOKEN }}" \
+              DISCORD_GUILD_ID="${{ secrets.DISCORD_GUILD_ID }}" \
+              BACKEND_URL="${{ secrets.BACKEND_URL }}" \
+              docker compose up -d --build 
