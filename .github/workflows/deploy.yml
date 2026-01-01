@@ -41,6 +41,7 @@ jobs:
             COMLINK_SECRET_KEY=${{ secrets.COMLINK_SECRET_KEY }}
             COMLINK_ACCESS_KEY=${{ secrets.COMLINK_ACCESS_KEY }}
             COMLINK_URL=${{ secrets.COMLINK_URL }}
+            echo $COMLINK_URL
 
             echo "▶ Stating data"
             cd Data            
