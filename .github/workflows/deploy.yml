@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main 
+    workflow_dispatch: 
 
 jobs:
   deploy:
@@ -20,7 +21,26 @@ jobs:
 
       - name: Deploy to VPS
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            cd /home/debian/battlebot  
-            git pull origin main      
+         ssh -o StrictHostKeyChecking=no \
+          ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+
+            set -e
+            cd /home/debian/Battlebot
+
+            echo "▶ Pulling repo"
+            git pull origin main
+
+            echo "▶ Writing .env"
+            cat > .env << ENV
+            DISCORD_CLIENT_ID=${{ secrets.DISCORD_CLIENT_ID }}
+            DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }}
+            DISCORD_GUILD_ID=${{ secrets.DISCORD_GUILD_ID }}
+
+            SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}
+            SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}
+
+            COMLINK_SECRET_KEY=${{ secrets.COMLINK_SECRET_KEY }}
+            COMLINK_ACCESS_KEY=${{ secrets.COMLINK_ACCESS_KEY }}
+            COMLINK_URL=${{ secrets.COMLINK_URL }}
+            ENV
           EOF
