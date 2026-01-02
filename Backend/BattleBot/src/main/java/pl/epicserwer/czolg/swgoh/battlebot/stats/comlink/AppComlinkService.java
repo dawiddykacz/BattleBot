@@ -4,19 +4,26 @@ import com.google.gson.JsonElement;
 import org.commons.AllyCode;
 import org.commons.Key;
 import org.commons.Url;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class AppComlinkService implements ComlinkService {
-    private ComlinkQueueService queueService;
+    private final ComlinkQueueService queueService;
+    private Logger logger;
 
     public AppComlinkService(Key accessKey, Key secretKey, Url apiUrl) {
         this.queueService = new ComlinkQueueService(accessKey, secretKey, apiUrl);
+
+        this.logger = LoggerFactory.getLogger(getClass());
     }
 
     public JsonElement getGuild(String guildId) throws IllegalArgumentException{
+        this.logger.info("Getting guild {}", guildId);
         return this.queueService.add(new GuildRequest(new GuildID(guildId)));
     }
 
     public JsonElement getPlayer(String allyCode,String comlinkPlayerId) throws IllegalArgumentException{
+        this.logger.info("Getting player {} Comlink {}", allyCode, comlinkPlayerId);
         return this.queueService.add(getPlayerRequest(allyCode,comlinkPlayerId));
     }
 
