@@ -27,8 +27,11 @@ jobs:
             set -e
             cd /home/debian/BattleBot
 
-            echo "▶ Pulling repo"
-            git pull origin main
+            BRANCH="${{ github.ref_name }}"
+            echo "▶ Deploying branch: $BRANCH"
+            git fetch origin
+            git checkout $BRANCH
+            git pull origin $BRANCH
 
             echo "▶ Stating data"
             cd Data            
