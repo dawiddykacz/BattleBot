@@ -8,13 +8,11 @@ const { splitMessage } = require('../components/ChunksMessage');
 async function filterHeroes(userId,heroNames) {
   try{
     const uuid = await addFilterHeroRequest(userId,heroNames);
-    console.log(uuid)
     
     const startTime = new Date();
     let status;
 
     while(!isNotFound(status) && !isCompleted(status)){
-      console.log(status)
       status = await getFilterStatus(uuid);
 
       if(new Date() - startTime > 120000){
@@ -27,7 +25,6 @@ async function filterHeroes(userId,heroNames) {
     }
 
     const result = await getFilterResult(uuid);
-    console.log(result)
     return formatHeroes(result);
   }catch(error){
     if (isErrorWithDisplay(error)) {
@@ -38,10 +35,16 @@ async function filterHeroes(userId,heroNames) {
   }
 }
 
-function formatHeroes(result) {
+function formatHeroes(result, queryString) {
   let output = '';
 
+  let found = true;
+
   for (const [heroName, heroData] of Object.entries(result.heroesMap)) {
+    if(!heroData || !heroName){
+      found = false;
+      break;
+    }
     output += `🦸 **${heroName.toUpperCase()}**\n`;
 
     // RELIC
@@ -74,6 +77,9 @@ function formatHeroes(result) {
     output += '\n────────────────────\n';
   }
 
+  if(!found){
+    return `${queryString} not found!`
+  }
   return output.trim();
 }
 

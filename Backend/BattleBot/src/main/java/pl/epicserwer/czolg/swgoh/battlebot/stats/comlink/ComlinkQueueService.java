@@ -18,11 +18,9 @@ class ComlinkQueueService {
     private final BlockingQueue<CallableTask> queue = new LinkedBlockingQueue<>();
 
     private final ComlinkApi comlinkApi;
-    private final Logger logger;
 
     public ComlinkQueueService(@NonNull final Key accessKey, @NonNull final Key secretKey, @NonNull final Url apiUrl){
         this.comlinkApi = new ComlinkApi(accessKey, secretKey, apiUrl);
-        this.logger = LoggerFactory.getLogger(getClass());
 
         Thread worker = new Thread(this::run);
         worker.setDaemon(true);
@@ -49,11 +47,9 @@ class ComlinkQueueService {
         while (true) {
             try {
                 final CallableTask task = this.queue.take();
-                logger.info("Request comlink: {}", task.getComlinkRequest());
                 final JsonElement jsonElement = this.comlinkApi.sendRequest(task.getComlinkRequest());
 
                 if(jsonElement != null){
-                    logger.info("Request complete");
                     task.getResponse().complete(jsonElement);
                 }else {
                     task.addTry();

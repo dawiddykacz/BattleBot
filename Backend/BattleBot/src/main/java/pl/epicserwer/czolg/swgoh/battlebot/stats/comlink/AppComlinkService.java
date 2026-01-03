@@ -9,12 +9,9 @@ import org.slf4j.LoggerFactory;
 
 class AppComlinkService implements ComlinkService {
     private final ComlinkQueueService queueService;
-    private Logger logger;
 
     public AppComlinkService(Key accessKey, Key secretKey, Url apiUrl) {
         this.queueService = new ComlinkQueueService(accessKey, secretKey, apiUrl);
-
-        this.logger = LoggerFactory.getLogger(getClass());
     }
 
     public JsonElement getGuild(String guildId) throws IllegalArgumentException{
