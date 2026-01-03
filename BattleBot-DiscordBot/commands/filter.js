@@ -25,7 +25,7 @@ async function filterHeroes(userId,heroNames) {
     }
 
     const result = await getFilterResult(uuid);
-    return formatHeroes(result);
+    return formatHeroes(result, heroNames);
   }catch(error){
     if (isErrorWithDisplay(error)) {
         return `[Error] ${error.message}`;
@@ -35,10 +35,13 @@ async function filterHeroes(userId,heroNames) {
   }
 }
 
-function formatHeroes(result) {
+function formatHeroes(result, queryString) {
   let output = '';
 
+  let found = false;
+
   for (const [heroName, heroData] of Object.entries(result.heroesMap)) {
+    found = true
     output += `🦸 **${heroName.toUpperCase()}**\n`;
 
     // RELIC
@@ -71,6 +74,9 @@ function formatHeroes(result) {
     output += '\n────────────────────\n';
   }
 
+  if(!found){
+    return `${queryString} not found!`
+  }
   return output.trim();
 }
 
@@ -106,7 +112,7 @@ module.exports = {
 
     await interaction.deferReply({ ephemeral: true });
     const response = await filterHeroes(userId,heroNames);
-    
+
     const chunks = splitMessage(response);
 
     await interaction.editReply(chunks[0]);

@@ -46,6 +46,7 @@ class ComlinkQueueService {
             try {
                 final CallableTask task = this.queue.take();
                 final JsonElement jsonElement = this.comlinkApi.sendRequest(task.getComlinkRequest());
+
                 if(jsonElement != null){
                     task.getResponse().complete(jsonElement);
                 }else {

@@ -20,6 +20,7 @@ class GuildHeroCommonFilterService implements GuildHeroFilterService{
 
     public SortedHeroes getHeroesByRarity(@NonNull final AllyCode allyCode,@NonNull final List<Name> heroNames){
         GuildHeroes guildHeroes = guildHeroesService.build(allyCode);
-        return guildHeroFilter.calculate(guildHeroes, heroNames);
+        final SortedHeroes sortedHeroes = guildHeroFilter.calculate(guildHeroes, heroNames);
+        return sortedHeroes;
     }
 }

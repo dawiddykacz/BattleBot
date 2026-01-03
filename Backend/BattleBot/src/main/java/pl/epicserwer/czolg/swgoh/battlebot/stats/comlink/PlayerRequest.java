@@ -1,8 +1,10 @@
 package pl.epicserwer.czolg.swgoh.battlebot.stats.comlink;
 
 import lombok.NonNull;
+import lombok.ToString;
 import org.commons.AllyCode;
 
+@ToString
 class PlayerRequest extends ComlinkRequest{
     public static PlayerRequest from(@NonNull final AllyCode allyCode) {
         return new PlayerRequest("allyCode",allyCode.toString());

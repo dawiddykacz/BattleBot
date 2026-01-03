@@ -1,8 +1,10 @@
 package pl.epicserwer.czolg.swgoh.battlebot.stats.comlink;
 
 import lombok.NonNull;
+import lombok.ToString;
 import org.commons.NameId;
 
+@ToString
 abstract class ComlinkRequest {
     protected enum Method{
         POST, GET;
