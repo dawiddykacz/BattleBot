@@ -18,12 +18,10 @@ class AppComlinkService implements ComlinkService {
     }
 
     public JsonElement getGuild(String guildId) throws IllegalArgumentException{
-        this.logger.info("Getting guild {}", guildId);
         return this.queueService.add(new GuildRequest(new GuildID(guildId)));
     }
 
     public JsonElement getPlayer(String allyCode,String comlinkPlayerId) throws IllegalArgumentException{
-        this.logger.info("Getting player {} Comlink {}", allyCode, comlinkPlayerId);
         return this.queueService.add(getPlayerRequest(allyCode,comlinkPlayerId));
     }
 

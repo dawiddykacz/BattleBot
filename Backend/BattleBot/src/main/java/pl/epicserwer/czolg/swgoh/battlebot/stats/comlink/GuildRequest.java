@@ -2,7 +2,9 @@ package pl.epicserwer.czolg.swgoh.battlebot.stats.comlink;
 
 
 import lombok.NonNull;
+import lombok.ToString;
 
+@ToString
 class GuildRequest extends ComlinkRequest {
     private final GuildID guildID;
 
