@@ -38,13 +38,10 @@ async function filterHeroes(userId,heroNames) {
 function formatHeroes(result, queryString) {
   let output = '';
 
-  let found = true;
+  let found = false;
 
   for (const [heroName, heroData] of Object.entries(result.heroesMap)) {
-    if(!heroData || !heroName){
-      found = false;
-      break;
-    }
+    found = true
     output += `🦸 **${heroName.toUpperCase()}**\n`;
 
     // RELIC
