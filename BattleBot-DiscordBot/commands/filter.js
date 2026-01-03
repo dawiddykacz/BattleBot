@@ -25,7 +25,7 @@ async function filterHeroes(userId,heroNames) {
     }
 
     const result = await getFilterResult(uuid);
-    return formatHeroes(result);
+    return formatHeroes(result, heroNames);
   }catch(error){
     if (isErrorWithDisplay(error)) {
         return `[Error] ${error.message}`;
@@ -112,11 +112,9 @@ module.exports = {
 
     await interaction.deferReply({ ephemeral: true });
     const response = await filterHeroes(userId,heroNames);
-    
-    console.log(response)
+
     const chunks = splitMessage(response);
 
-    console.log(chunks)
     await interaction.editReply(chunks[0]);
 
     for (let i = 1; i < chunks.length; i++) {
