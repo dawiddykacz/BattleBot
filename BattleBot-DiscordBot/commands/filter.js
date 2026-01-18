@@ -49,7 +49,7 @@ function formatHeroes(result, queryString) {
       output += `\n🔮 **Relic:**\n`;
       for (const [level, players] of Object.entries(heroData.relicMap)
         .sort((a, b) => Number(b[0]) - Number(a[0]))) {
-        output += `• R${level}: ${players.map(p => `${p.name} (${p.star}*)`).join(', ')}\n`;
+        output += `• R${level}: ${players.map(p => `${p.name} (${p.starsHeroLevel}*)`).join(', ')}\n`;
       }
     }
 
@@ -58,7 +58,7 @@ function formatHeroes(result, queryString) {
       output += `\n⚙️ **Gear:**\n`;
       for (const [level, players] of Object.entries(heroData.gearMap)
         .sort((a, b) => Number(b[0]) - Number(a[0]))) {
-        output += `• G${level}: ${players.map(p => `${p.name} (${p.star}*)`).join(', ')}\n`;
+        output += `• G${level}: ${players.map(p => `${p.name} (${p.starsHeroLevel}*)`).join(', ')}\n`;
       }
     }
 
