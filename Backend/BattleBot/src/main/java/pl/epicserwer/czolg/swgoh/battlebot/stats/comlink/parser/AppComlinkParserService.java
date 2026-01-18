@@ -160,6 +160,7 @@ class AppComlinkParserService implements StatsParserService {
         Level level = new Level();
         GearLevel gearLevel = new GearLevel();
         Relic relic = new Relic();
+        Star star = new Star();
 
         if (heroJson.has("definitionId") && heroJson.get("definitionId").isJsonPrimitive()) {
             name = new Name(heroJson.get("definitionId").getAsString().split(":")[0].toLowerCase());
@@ -180,8 +181,11 @@ class AppComlinkParserService implements StatsParserService {
         if (heroJson.has("currentTier") && heroJson.get("currentTier").isJsonPrimitive()) {
             gearLevel = new GearLevel(heroJson.get("currentTier").getAsInt());
         }
+        if(heroJson.has("currentRarity") && heroJson.get("currentRarity").isJsonPrimitive()) {
+            star = new Star(heroJson.get("currentRarity").getAsInt());
+        }
 
 
-        return new GameHero(id, name, level, gearLevel, relic);
+        return new GameHero(id, name, level, gearLevel, relic,star);
     }
 }

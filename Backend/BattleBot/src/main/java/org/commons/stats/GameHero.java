@@ -15,4 +15,5 @@ public class GameHero {
     private final Level level;
     private final GearLevel gearLevel;
     private final Relic relic;
+    private final Star star;
 }
