@@ -2,6 +2,7 @@ package pl.epicserwer.czolg.swgoh.battlebot.stats.test;
 
 import org.commons.AllyCode;
 import org.commons.Name;
+import org.commons.NameId;
 import org.commons.stats.guilds.SortedHeroes;
 import org.commons.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,8 @@ public class MM {
         long l = System.currentTimeMillis();
         final String g = "f_Thgi18TriIdV1cEkEphA";
         String ally = "864927446";
-        //userService.registerUser(new NameId("dd"),new AllyCode(ally));
+        userService.registerUser(new NameId("dd"),new AllyCode(ally));
+        guildHeroesService.build(ally);
 
         //this.drtService.a();
 

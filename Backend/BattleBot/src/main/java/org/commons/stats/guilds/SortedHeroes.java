@@ -1,6 +1,5 @@
 package org.commons.stats.guilds;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
@@ -9,6 +8,7 @@ import org.commons.Name;
 import org.commons.stats.GameHero;
 import org.commons.stats.GearLevel;
 import org.commons.stats.Relic;
+import org.commons.stats.Star;
 
 import java.util.*;
 
@@ -16,19 +16,24 @@ import java.util.*;
 @ToString
 public class SortedHeroes {
 
-    public record Player(AllyCode allyCode, Name playerName) {
+    public record Player(AllyCode allyCode, Name playerName, Star stars) implements Comparable<Player> {
 
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             Player player = (Player) o;
-            return Objects.equals(playerName, player.playerName) && Objects.equals(allyCode, player.allyCode);
+            return Objects.equals(stars, player.stars) && Objects.equals(playerName, player.playerName) && Objects.equals(allyCode, player.allyCode);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(allyCode, playerName);
+            return Objects.hash(allyCode, playerName, stars);
+        }
+
+        @Override
+        public int compareTo(Player o) {
+            return stars.compareTo(o.stars());
         }
     }
 
@@ -40,13 +45,13 @@ public class SortedHeroes {
     public static class Builder {
         private final HashMap<Name, HashMap<Relic, List<Player>>> relicMap = new HashMap<>();
         private final HashMap<Name, HashMap<GearLevel, List<Player>>> gearMap = new HashMap<>();
-        private final HashMap<Name,List<Player>> playerWithoutHeroMap = new HashMap<>();
+        private final HashMap<Name, List<Player>> playerWithoutHeroMap = new HashMap<>();
         private final List<Player> allPlayers = new ArrayList<>();
 
         public void add(@NonNull final GuildHero guildHero) {
             final GameHero gameHero = guildHero.getGameHero();
-            final Player player = new Player(guildHero.getAllyCode(), guildHero.getName());
-            if(!this.allPlayers.contains(player)) {
+            final Player player = new Player(guildHero.getAllyCode(), guildHero.getName(), gameHero.getStar());
+            if (!this.allPlayers.contains(player)) {
                 this.allPlayers.add(player);
             }
 
@@ -74,14 +79,15 @@ public class SortedHeroes {
             this.relicMap.put(gameHero.getName(), relicMap);
         }
 
-        public SortedHeroes build(@NonNull final  GuildHeroes guildHeroes) {
+        public SortedHeroes build(@NonNull final GuildHeroes guildHeroes) {
             for (Name heroName : this.relicMap.keySet()) {
                 final List<Player> allPlayers = new ArrayList<>(this.allPlayers);
 
                 for (List<GuildHero> value : guildHeroes.getGameHeroes().values()) {
                     for (GuildHero guildHero : value) {
-                        Player player = new Player(guildHero.getAllyCode(), guildHero.getName());
-                        if(!this.allPlayers.contains(player)) {
+                        Player player = new Player(guildHero.getAllyCode(), guildHero.getName(),
+                                guildHero.getGameHero().getStar());
+                        if (!this.allPlayers.contains(player)) {
                             this.allPlayers.add(player);
                             allPlayers.add(player);
                         }
@@ -93,6 +99,20 @@ public class SortedHeroes {
                 }
 
                 this.playerWithoutHeroMap.put(heroName, allPlayers);
+            }
+
+            for (Map<Relic, List<Player>> innerMap : relicMap.values()) {
+                for (List<Player> players : innerMap.values()) {
+                    Collections.sort(players);
+                }
+            }
+            for (Map<GearLevel, List<Player>> innerMap : gearMap.values()) {
+                for (List<Player> players : innerMap.values()) {
+                    Collections.sort(players);
+                }
+            }
+            for (List<Player> value : playerWithoutHeroMap.values()) {
+                Collections.sort(value);
             }
 
             return new SortedHeroes(relicMap, gearMap, playerWithoutHeroMap);

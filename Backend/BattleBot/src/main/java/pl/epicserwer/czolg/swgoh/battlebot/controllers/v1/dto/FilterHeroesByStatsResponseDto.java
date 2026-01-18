@@ -16,7 +16,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class FilterHeroesByStatsResponseDto {
-    public record Player(String name) {
+    public record Player(String name,Long starLevel) {
     }
 
     public record Hero(HashMap<Long, List<Player>> relicMap,
@@ -43,20 +43,18 @@ public class FilterHeroesByStatsResponseDto {
             for (Relic relic : relicMap.get(name).keySet()) {
                 relicMap2.get(name.toString()).putIfAbsent(relic.getStatAsLong(),new ArrayList<>());
                 for (SortedHeroes.Player player : relicMap.get(name).get(relic)) {
-                    relicMap2.get(name.toString()).get(relic.getStatAsLong()).add(new Player(
-                            player.playerName().toString()));
+                    relicMap2.get(name.toString()).get(relic.getStatAsLong()).add(toPlayer(player));
                 }
             }
             for (GearLevel gear : gearMap.get(name).keySet()) {
                 gearMap2.get(name.toString()).putIfAbsent(gear.getStatAsLong(),new ArrayList<>());
                 for (SortedHeroes.Player player : gearMap.get(name).get(gear)) {
-                    gearMap2.get(name.toString()).get(gear.getStatAsLong()).add(new Player(
-                            player.playerName().toString()));
+                    gearMap2.get(name.toString()).get(gear.getStatAsLong()).add(toPlayer(player));
                 }
             }
 
             for (SortedHeroes.Player player : playerWithoutHeroMap.get(name)) {
-                playerWithoutHeroMap2.get(name.toString()).add(new Player(player.playerName().toString()));
+                playerWithoutHeroMap2.get(name.toString()).add(toPlayer(player));
             }
         }
 
@@ -64,6 +62,10 @@ public class FilterHeroesByStatsResponseDto {
             this.heroesMap.put(heroName,new Hero(relicMap2.get(heroName),
                     gearMap2.get(heroName),playerWithoutHeroMap2.get(heroName)));
         }
+    }
+
+    private Player toPlayer(@NonNull final SortedHeroes.Player sortedPlayer) {
+        return new Player(sortedPlayer.playerName().toString(),sortedPlayer.stars().getStatAsLong());
     }
 }
 
