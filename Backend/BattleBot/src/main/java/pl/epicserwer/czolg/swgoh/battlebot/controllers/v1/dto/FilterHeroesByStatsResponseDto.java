@@ -16,7 +16,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class FilterHeroesByStatsResponseDto {
-    public record Player(String name,Long starLevel) {
+    public record Player(String name,Long starsHeroLevel) {
     }
 
     public record Hero(HashMap<Long, List<Player>> relicMap,
